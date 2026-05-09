@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>China Airlines Cargo Calculator</title>
+
+  <style>
+    :root {
+      --browser-purple: #a78bc3;
+      --browser-purple-dark: #7a5e99;
+      --page-yellow: #fff1c9;
+      --tab-green: #b9de75;
+      --tab-yellow: #ffd991;
+      --tab-pink: #ef94bd;
+      --postit-pink: #ef94bd;
+      --table-lavender: #d8d7ff;
+      --table-head: #b7b6f3;
+      --burgundy: #9b1b30;
+      --burgundy-dark: #7d1526;
+      --scuba-blue: #16aebb;
+      --white: #ffffff;
+      --ink: #2b2730;
+      --muted: #6f6472;
+      --border: #6a4f72;
+      --danger-bg: #f7d7de;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: var(--ink);
+      background: var(--page-yellow);
+      min-height: 100vh;
+    }
+
+    .page {
+      max-width: 1180px;
+      margin: auto;
+      padding: 10px 18px 28px;
+    }
+
+    .hero {
+      background: var(--browser-purple);
+      color: var(--ink);
+      border-radius: 14px 14px 0 0;
+      padding: 0;
+      margin-bottom: 0;
+      box-shadow: 0 10px 28px rgba(87,61,94,.22);
+      border: 2px solid var(--border);
+      border-bottom: none;
+      overflow: hidden;
+    }
+
+    .browser-titlebar {
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      background: var(--browser-purple);
+      border-bottom: 2px solid var(--border);
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 15px;
+      letter-spacing: .2px;
+      color: var(--ink);
+      text-shadow: none;
+      font-weight: bold;
+    }
+
+    .browser-dots {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--tab-pink);
+    }
+
+    .dot:nth-child(2) { background: var(--tab-yellow); }
+    .dot:nth-child(3) { background: var(--tab-green); }
+
+    .badge-row {
+      display: flex;
+      align-items: end;
+      gap: 6px;
+      margin-top: 0;
+      padding: 0 86px;
+      height: 30px;
+      background: var(--tab-yellow);
+      border-bottom: 2px solid var(--border);
+    }
+
+    .badge {
+      position: relative;
+      top: 2px;
+      background: var(--tab-green);
+      border: 2px solid var(--border);
+      border-bottom: none;
+      padding: 8px 24px 8px;
+      border-radius: 12px 12px 0 0;
+      font-size: 15px;
+      color: var(--ink);
+      text-decoration: none;
+      cursor: pointer;
+      transition: .15s;
+      font-weight: bold;
+    }
+
+    .badge.dg-tab {
+      background: #9dc3df;
+    }
+
+    .badge.active-tab {
+      z-index: 2;
+      transform: translateY(-1px);
+    }
+
+    .page-panel {
+      display: none;
+    }
+
+    .page-panel.active-panel {
+      display: block;
+    }
+
+    .badge:hover {
+      background: #c9eb85;
+      transform: translateY(-1px);
+    }
+
+    .browser-window {
+      background: var(--page-yellow);
+      border: 2px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 14px 14px;
+      padding: 26px;
+      margin-bottom: 22px;
+      box-shadow: 0 14px 34px rgba(87,61,94,.18);
+    }
+
+    .box {
+      background: var(--postit-pink);
+      color: var(--ink);
+      padding: 24px;
+      border-radius: 14px;
+      box-shadow: 6px 6px 0 rgba(106,79,114,.18);
+      margin-bottom: 22px;
+      border: 2px solid var(--border);
+      overflow: hidden;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 27px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      color: var(--ink);
+    }
+
+    .icon {
+      width: 42px;
+      height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      background: var(--tab-yellow);
+      box-shadow: 3px 3px 0 rgba(106,79,114,.18);
+      border: 2px solid var(--border);
+      font-size: 22px;
+      text-shadow: none;
+      flex: 0 0 auto;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 7px;
+      font-weight: bold;
+      color: var(--ink);
+      font-size: 16px;
+    }
+
+    select,
+    input,
+    button {
+      width: 100%;
+      padding: 11px 14px;
+      margin-top: 0;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 2px solid var(--border);
+      box-sizing: border-box;
+    }
+
+    input,
+    select {
+      background: #fbfdff;
+      color: var(--ink);
+      min-height: 46px;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--burgundy);
+      box-shadow: 3px 3px 0 rgba(106,79,114,.30);
+    }
+
+    button {
+      background: var(--burgundy);
+      color: white;
+      border: 2px solid #5b1020;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 18px;
+      min-height: 48px;
+      transition: .12s;
+      box-shadow:
+        inset 3px 3px 0 rgba(255,255,255,.28),
+        inset -4px -4px 0 rgba(80,10,25,.35),
+        4px 5px 0 rgba(80,10,25,.35);
+    }
+
+    button:hover {
+      background: var(--burgundy-dark);
+      transform: translateY(1px);
+      box-shadow:
+        inset 2px 2px 0 rgba(255,255,255,.22),
+        inset -3px -3px 0 rgba(80,10,25,.35),
+        2px 3px 0 rgba(80,10,25,.35);
+    }
+
+    .button-danger,
+    .add-button {
+      background: var(--burgundy);
+      color: white;
+    }
+
+    .button-danger {
+      width: auto;
+      min-width: 46px;
+      padding: 8px 10px;
+      font-size: 14px;
+      margin-top: 0;
+      border-radius: 10px;
+      min-height: 38px;
+    }
+
+    .add-button {
+      width: auto;
+      display: inline-block;
+      padding: 10px 18px;
+      min-height: 44px;
+      font-size: 15px;
+      margin-top: 16px;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 22px;
+      font-weight: bold;
+      background: var(--scuba-blue);
+      color: var(--ink);
+      padding: 16px;
+      border-radius: 12px;
+      border-left: none;
+      text-shadow: none;
+    }
+
+    .warning {
+      background: var(--danger-bg);
+      color: var(--burgundy-dark);
+    }
+
+    .small-note {
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--muted);
+      background: #f7f4ef;
+      border-left: none;
+      padding: 9px 11px;
+      border-radius: 10px;
+      line-height: 1.6;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: end;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 330px;
+      gap: 20px;
+      margin-top: 20px;
+      align-items: start;
+    }
+
+    .table-scroll {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: 14px;
+    }
+
+    table {
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: var(--table-lavender);
+      overflow: hidden;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      color: var(--ink);
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid rgba(106,79,114,.55);
+      border-right: 1px solid rgba(106,79,114,.55);
+      padding: 10px 8px;
+      text-align: left;
+      color: var(--ink);
+      background: #d8d7ff;
+      word-break: break-word;
+    }
+
+    th:last-child,
+    td:last-child {
+      border-right: none;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    th {
+      background: var(--table-head);
+      font-weight: bold;
+    }
+
+    .limit-table th { width: 68%; }
+    .limit-table td { width: 32%; }
+
+    .image-box {
+      border: 2px dashed #9dc3df;
+      border-radius: 18px;
+      padding: 14px;
+      text-align: center;
+      color: var(--muted);
+      background: #f7f4ef;
+    }
+
+    .image-box img {
+      max-width: 100%;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(36,49,66,.14);
+    }
+
+    .cbm-table {
+      font-size: 14px;
+    }
+
+    .cbm-table th,
+    .cbm-table td {
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .cbm-table input {
+      width: 100%;
+      min-height: 38px;
+      margin-top: 0;
+      padding: 7px 8px;
+      font-size: 14px;
+      border-radius: 0;
+      box-shadow: 4px 4px 0 rgba(106,79,114,.35);
+    }
+
+    #dimensionBody td:nth-child(1),
+    #conversionBody td:nth-child(1),
+    .cbm-table th:nth-child(1) {
+      width: 42px;
+    }
+
+    #dimensionBody td:nth-child(2),
+    #dimensionBody td:nth-child(3),
+    #dimensionBody td:nth-child(4),
+    #dimensionBody td:nth-child(5) {
+      width: 17%;
+    }
+
+    #dimensionBody td:nth-child(6),
+    #dimensionBody td:nth-child(7) {
+      width: 70px;
+    }
+
+    #dimensionBody td:nth-child(8) {
+      width: 95px;
+    }
+
+    #dimensionBody td:nth-child(9) {
+      width: 58px;
+    }
+
+    #conversionBody td:nth-child(2),
+    #conversionBody td:nth-child(3),
+    #conversionBody td:nth-child(4),
+    #conversionBody td:nth-child(5) {
+      width: 18%;
+    }
+
+    #conversionBody td:nth-child(6) {
+      width: 170px;
+    }
+
+    #conversionBody td:nth-child(7) {
+      width: 58px;
+    }
+
+    .input-danger {
+      background: var(--danger-bg) !important;
+      border: 2px solid var(--burgundy) !important;
+      color: var(--burgundy-dark);
+      font-weight: bold;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .summary-card {
+      background: #f7f4ef;
+      border: 1px solid var(--border);
+      padding: 16px;
+      border-radius: 18px;
+      text-align: center;
+      box-shadow: none;
+    }
+
+    .summary-card .label {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .summary-card .value {
+      margin-top: 6px;
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--ink);
+    }
+
+    #imageModal {
+      display:none;
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background:rgba(36,49,66,.88);
+      justify-content:center;
+      align-items:center;
+      z-index:999;
+    }
+
+    #imageModal img {
+      max-width:90%;
+      max-height:90%;
+      border-radius:16px;
+      box-shadow: 0 20px 50px rgba(0,0,0,.45);
+    }
+
+    .contact-tools {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: end;
+      margin: 10px 0 18px;
+    }
+
+    .contact-search {
+      min-height: 48px;
+      font-size: 16px;
+      border-radius: 10px;
+      box-shadow: 4px 4px 0 rgba(106,79,114,.22);
+    }
+
+    .contact-count {
+      background: var(--tab-yellow);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-weight: bold;
+      min-width: 150px;
+      text-align: center;
+      box-shadow: 3px 3px 0 rgba(106,79,114,.18);
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .contact-card {
+      background: var(--page-yellow);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 5px 5px 0 rgba(106,79,114,.18);
+    }
+
+    .contact-company {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 0 0 10px;
+      font-size: 20px;
+      color: var(--ink);
+    }
+
+    .mail-chip {
+      display: inline-block;
+      background: var(--tab-green);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 10px;
+      margin: 4px 4px 8px 0;
+      font-size: 13px;
+      color: var(--ink);
+      word-break: break-all;
+    }
+
+    .contact-note {
+      background: #fff8dd;
+      border: 1px dashed var(--border);
+      padding: 8px 10px;
+      border-radius: 10px;
+      margin: 8px 0 10px;
+      white-space: pre-line;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .contact-table {
+      margin-top: 10px;
+      table-layout: fixed;
+    }
+
+    .contact-table th:nth-child(1),
+    .contact-table td:nth-child(1) {
+      width: 38%;
+    }
+
+    .contact-table th:nth-child(2),
+    .contact-table td:nth-child(2) {
+      width: 25%;
+    }
+
+    .contact-table th:nth-child(3),
+    .contact-table td:nth-child(3) {
+      width: 37%;
+    }
+
+    .contact-table td {
+      text-align: left;
+      white-space: pre-line;
+      vertical-align: top;
+      font-size: 13px;
+    }
+
+    .contact-email {
+      word-break: break-all;
+      white-space: pre-line;
+    }
+
+    .contact-empty {
+      background: #f7f4ef;
+      border: 2px dashed var(--border);
+      padding: 18px;
+      border-radius: 12px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .dg-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .dg-card {
+      background: var(--page-yellow);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 5px 5px 0 rgba(106,79,114,.18);
+      margin-top: 16px;
+    }
+
+    .dg-card h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+
+    .dg-card ul {
+      margin: 0;
+      padding-left: 20px;
+      line-height: 1.6;
+    }
+
+    .dg-card li {
+      margin-bottom: 8px;
+    }
+
+    .dg-card p {
+      line-height: 1.6;
+    }
+
+    .dg-link {
+      display: inline-block;
+      background: var(--burgundy);
+      color: white;
+      text-decoration: none;
+      border: 2px solid #5b1020;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-weight: bold;
+      box-shadow:
+        inset 3px 3px 0 rgba(255,255,255,.28),
+        inset -4px -4px 0 rgba(80,10,25,.35),
+        4px 5px 0 rgba(80,10,25,.35);
+    }
+
+    @media (max-width: 800px) {
+      .page {
+        padding: 8px;
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+
+      .browser-window {
+        padding: 14px;
+      }
+
+      .badge-row {
+        padding: 0 56px;
+      }
+
+      .box {
+        padding: 16px;
+        border-radius: 14px;
+      }
+
+      .layout,
+      .summary-grid,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h2 {
+        font-size: 22px;
+      }
+
+      .section-title {
+        align-items: flex-start;
+      }
+
+      select,
+      input,
+      button {
+        font-size: 15px;
+        min-height: 44px;
+      }
+
+      .table-scroll {
+        overflow-x: auto;
+      }
+
+      table {
+        min-width: 720px;
+      }
+
+      .limit-table {
+        min-width: 0;
+      }
+
+      .cbm-table {
+        font-size: 12px;
+      }
+
+      .cbm-table input {
+        min-height: 34px;
+        padding: 6px;
+        font-size: 12px;
+      }
+
+      .button-danger {
+        min-width: 42px;
+        padding: 7px 8px;
+      }
+
+      .summary-card {
+        min-width: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <div class="hero">
+    <div class="browser-titlebar">
+      <h1>China Airlines</h1>
+      <div class="browser-dots">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+    <div class="badge-row">
+      <a id="cargoTab" class="badge active-tab" href="#" onclick="showPage('cargo'); return false;">Cargo Calculator</a>
+      <a id="dgTab" class="badge dg-tab" href="#" onclick="showPage('dg'); return false;">Dangerous Goods</a>
+    </div>
+  </div>
+
+  <div class="browser-window">
+
+    <div id="cargoPanel" class="page-panel active-panel">
+
+    <div class="box" id="aircraft-section">
+      <h2 class="section-title"><span class="icon">🛫</span> Main-Deck Calculation</h2>
+
+      <label>เลือกรุ่นเครื่องบิน / Position</label>
+      <select id="plane" onchange="updateLimitTable()">
+        <option value="B777F_N118">B777F N118</option>
+        <option value="B777F_P116">B777F P116</option>
+        <option value="B777F_A116">B777F A116</option>
+        <option value="B777F_L118">B777F L118</option>
+        <option value="B777F_L116">B777F L116</option>
+        <option value="B744F_Q7">B744F Q7</option>
+        <option value="B744F_A1">B744F A1</option>
+        <option value="B744F_A2">B744F A2</option>
+        <option value="B744F_PRA">B744F PRA ขวางลำ</option>
+      </select>
+
+      <div class="form-grid">
+        <div>
+          <label>ความสูงสินค้า</label>
+          <input id="height" type="number" placeholder="เช่น 190">
+        </div>
+        <div>
+          <label>หน่วยความสูง / Unit</label>
+          <select id="aircraftUnit">
+            <option value="cm">cm</option>
+            <option value="mm">mm</option>
+            <option value="inch">inch</option>
+            <option value="m">meter</option>
+          </select>
+        </div>
+      </div>
+
+      <button onclick="calc()">คำนวณความกว้างตามเครื่องบิน</button>
+
+      <div id="result" class="result">ผลลัพธ์</div>
+      <div class="small-note">**ผลลัพธ์หักขอบแผ่นเรียบร้อยแล้ว**<br>**ผลลัพธ์ยังไม่ได้หักความสูงของแผ่น**</div>
+
+      <div class="layout">
+        <div>
+          <table class="limit-table">
+            <tbody>
+              <tr><th>รุ่น / ตำแหน่ง (Type / Position)</th><td id="limitName">-</td></tr>
+              <tr><th>ความสูงสูงสุด (Max Height)</th><td id="limitMaxH">-</td></tr>
+              <tr><th id="labelBaseW">ความกว้างฐาน (Base Width - External Dimension)</th><td id="limitBaseW">-</td></tr>
+              <tr><th>ความสูงเริ่มเข้าโค้ง (Curve Height)</th><td id="limitCurveH">-</td></tr>
+              <tr><th id="labelTopW">ความกว้างด้านบน (Top Width)</th><td id="limitTopW">-</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="image-box">
+          <img id="planeImage" src="" alt="Aircraft limit image" onclick="openImage()">
+        </div>
+      </div>
+    </div>
+
+    <div class="box" id="cbm-section">
+      <h2 class="section-title"><span class="icon">📦</span> คำนวณ CBM / CF / Volume Weight</h2>
+
+      <div class="form-grid">
+        <div>
+          <label>หน่วยของขนาดในตาราง / Dimension Unit</label>
+          <select id="cbmUnit" onchange="calculateCBM()">
+            <option value="cm">cm</option>
+            <option value="mm">mm</option>
+            <option value="inch">inch</option>
+            <option value="m">meter</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-scroll">
+        <table class="cbm-table" style="margin-top: 16px;">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>กว้าง W</th>
+              <th>ยาว L</th>
+              <th>สูง H</th>
+              <th>ชิ้น Qty</th>
+              <th>CBM</th>
+              <th>CF</th>
+              <th>Volume Weight</th>
+              <th>ลบ</th>
+            </tr>
+          </thead>
+          <tbody id="dimensionBody"></tbody>
+        </table>
+      </div>
+
+      <button class="add-button" onclick="addDimensionRow()">+ เพิ่ม Dimension</button>
+
+      <div class="summary-grid">
+        <div class="summary-card"><div class="label">จำนวนชิ้นรวม</div><div id="totalQty" class="value">0</div></div>
+        <div class="summary-card"><div class="label">Total CBM</div><div id="totalCBM" class="value">0.000</div></div>
+        <div class="summary-card"><div class="label">Total CF</div><div id="totalCF" class="value">0.00</div></div>
+        <div class="summary-card"><div class="label">Total Volume Weight</div><div id="totalVolume" class="value">0.00 kg</div></div>
+      </div>
+    </div>
+
+    <div class="box" id="conversion-section">
+      <h2 class="section-title"><span class="icon">📐</span> ตารางแปลงหน่วย / Unit Conversion</h2>
+
+      <div class="form-grid">
+        <div>
+          <label>หน่วยต้นทาง / From Unit</label>
+          <select id="convertFromUnit" onchange="calculateUnitConversion()">
+            <option value="cm">cm</option>
+            <option value="mm">mm</option>
+            <option value="inch">inch</option>
+            <option value="m">meter</option>
+          </select>
+        </div>
+        <div>
+          <label>แปลงเป็น / To Unit</label>
+          <select id="convertToUnit" onchange="calculateUnitConversion()">
+            <option value="cm">cm</option>
+            <option value="mm">mm</option>
+            <option value="inch">inch</option>
+            <option value="m">meter</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-scroll">
+        <table class="cbm-table" style="margin-top: 16px;">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>กว้าง W</th>
+              <th>ยาว L</th>
+              <th>สูง H</th>
+              <th>ชิ้น Qty</th>
+              <th>Dimension Result (W x L x H)</th>
+              <th>ลบ</th>
+            </tr>
+          </thead>
+          <tbody id="conversionBody"></tbody>
+        </table>
+      </div>
+
+      <button class="add-button" onclick="addConversionRow()">+ เพิ่ม Dimension</button>
+
+      <div class="summary-grid">
+        <div class="summary-card"><div class="label">จำนวนชิ้นรวม</div><div id="convertTotalQty" class="value">0</div></div>
+        <div class="summary-card"><div class="label">Total CBM</div><div id="convertTotalCBM" class="value">0.000</div></div>
+        <div class="summary-card"><div class="label">Total CF</div><div id="convertTotalCF" class="value">0.00</div></div>
+        <div class="summary-card"><div class="label">Total Volume Weight</div><div id="convertTotalVolume" class="value">0.00 kg</div></div>
+      </div>
+    </div>
+
+    </div>
+
+    <div id="dgPanel" class="page-panel">
+      <div class="box">
+        <h2 class="section-title"><span class="icon">⚠️</span> Dangerous Goods</h2>
+
+        <div class="small-note">
+          ข้อมูลหน้านี้เรียบเรียงจากหน้า Dangerous Goods ของ China Airlines Cargo เพื่อใช้อ้างอิงเบื้องต้นเท่านั้น<br>
+          กรุณาตรวจสอบกฎล่าสุดจาก IATA DGR และเว็บไซต์บริษัทก่อนรับงานจริงทุกครั้ง
+        </div>
+
+        <div class="dg-grid">
+          <div class="dg-card">
+            <h3>China Airlines Variation</h3>
+            <ul>
+              <li><b>CI-01:</b> Passenger aircraft ไม่รับ Class 1 ถึง Class 8 ยกเว้น DG ที่ไม่ต้องใช้ DGD; รวมถึง UN3556, UN3557, UN3558 และ UN3091/UN3481/UN3552 Section I ตาม PI ที่เกี่ยวข้อง</li>
+              <li><b>CI-02:</b> Excepted quantities ไม่รับ ยกเว้น radioactive materials, excepted package</li>
+              <li><b>CI-03:</b> Consolidation ที่มีมากกว่า 1 HAWB ต้องให้ทุก HAWB เป็น DG ที่ต้องใช้ DGD</li>
+              <li><b>CI-04:</b> Liquid DG ที่มี primary/subsidiary hazard Class 8 แบบ single packaging ต้อง overpack ด้วย rigid material ป้องกันด้านบนและด้านล่าง และต้อง stackable</li>
+              <li><b>CI-05:</b> Oxygen Generator Chemical UN3356 ไม่รับขนส่ง</li>
+              <li><b>CI-06:</b> Radioactive Material เข้า/ออก/ผ่าน Taiwan ต้องได้รับ approval จาก Nuclear Safety Commission ล่วงหน้า 7 วัน ยกเว้น excepted package</li>
+              <li><b>CI-07:</b> DG ภายใต้ State exemptions หรือ State approval ไม่รับขนส่ง</li>
+              <li><b>CI-08:</b> Class 7 ยกเว้น excepted package ต้องแยกจาก Class 1, 2, 3 และ 8</li>
+              <li><b>CI-09:</b> ไม่รับ UN3090 PI968 Section IA/IB และ lithium battery บางกรณีเมื่อ overpacked หรือ packed with other DG classes</li>
+            </ul>
+          </div>
+
+          <div class="dg-card">
+            <h3>Embargo / High Light List</h3>
+            <table>
+              <tbody>
+                <tr><th>All</th><td>ห้ามรับ UN3090 Lithium Metal Batteries PI968 Section IA/IB เป็น cargo</td></tr>
+                <tr><th>DWC</th><td>ต้องขอ prior permit 48 ชั่วโมงก่อน flight arrival ที่ DWC ยกเว้น cargo stay in aircraft</td></tr>
+                <tr><th>FRA</th><td>DG import ทุก shipment จะถูก rechecked</td></tr>
+                <tr><th>HKG</th><td>DG shipment ต้อง claim ภายใน 24 ชั่วโมงหลัง arrival</td></tr>
+                <tr><th>KTI / PNH</th><td>DG ทุกประเภท รวมถึง DG ที่ไม่ต้องใช้ DGD ไม่รับ</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="dg-card">
+          <h3>Mainland China Import Limitation</h3>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr><th>Station</th><th>Limitation / Requirement</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>CAN</td><td>รับ Class 1-9 บน cargo aircraft ต้องขอ prior approval จาก CAN ก่อนส่ง</td></tr>
+                <tr><td>CGO</td><td>รับ Class 1-9 บน cargo aircraft ต้องขอ prior approval จาก CGO ยกเว้น ICE</td></tr>
+                <tr><td>CKG</td><td>รับ Class 1-9 บน cargo aircraft ต้องขอ prior approval จาก CKG</td></tr>
+                <tr><td>FOC</td><td>ไม่รับ DG ทุกประเภท รวมถึง ICE / ELI / ELM</td></tr>
+                <tr><td>NGB</td><td>รับเฉพาะ Class 9; ไม่รับ UN2910/UN2911 radioactive excepted package และ UN3373</td></tr>
+                <tr><td>NKG</td><td>รับ Class 1-9 บน cargo aircraft ต้องขอ prior approval; UN3481 PI966/967 Section II และ UN3091 PI969/970 Section II ต้องขอ approval ด้วย</td></tr>
+                <tr><td>PEK</td><td>รับเฉพาะ Class 9 ต้องขอ prior approval; ไม่รับ UN2910/UN2911 และ UN3373</td></tr>
+                <tr><td>PVG</td><td>รับ Class 1-9 บน cargo aircraft; Class 1 ต้องขอ prior approval จาก PVG</td></tr>
+                <tr><td>SHA</td><td>รับเฉพาะ ELI / ELM; DG อื่นไม่รับ</td></tr>
+                <tr><td>SZX</td><td>รับ Class 1-9 บน cargo aircraft ต้องขอ prior approval และต้องมี MSDS/SDS ภาษาจีน; chemical DG ต้องให้ consignee รับของวันเดียวกับ arrival</td></tr>
+                <tr><td>TFU</td><td>รับเฉพาะ Class 9; ไม่รับ UN2910/UN2911 และ UN3373</td></tr>
+                <tr><td>WUH</td><td>ไม่รับ DG ทุกประเภท รวมถึง ICE / ELI / ELM</td></tr>
+                <tr><td>XMN</td><td>รับ Class 1-9 บน cargo aircraft ต้องขอ prior approval จาก XMN ยกเว้น ICE</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="dg-card">
+          <h3>RRE Permit / Dry Ice / MAG Quick Guide</h3>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr><th>Topic</th><th>Key Point</th><th>Important Note</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>RRE Permit</td>
+                  <td>Radioactive Material, Excepted Packages: UN2908 / UN2909 / UN2910 / UN2911</td>
+                  <td>ต้องตรวจสอบ permit กรณี to / from / through / over ตาม DGR 2.8 State variations</td>
+                </tr>
+                <tr>
+                  <td>RRE Countries</td>
+                  <td>ตัวอย่างประเทศ/เมืองที่ระบุในไฟล์: UAE-DWC, Australia-SYD/BNE/MEL, India-DEL/BOM, Malaysia-KUL/PEN, Netherlands-AMS, Thailand-BKK/CNX</td>
+                  <td>อ้างอิง variation: AEG-06, AUG-02, ING-02, MYG-02, NLG-03, THG-05</td>
+                </tr>
+                <tr>
+                  <td>Dry Ice packed with DG</td>
+                  <td>ต้องใช้ DG checklist, DGD required, NOTOC required</td>
+                  <td>AWB Handling Information: Dangerous goods as per associated DGD</td>
+                </tr>
+                <tr>
+                  <td>Dry Ice packed with Non-DG</td>
+                  <td>ใช้ Dry Ice checklist, DGD not required, NOTOC required</td>
+                  <td>AWB Nature and Quantity of Goods ต้องระบุ เช่น UN1845 Carbon dioxide, solid 2 X 40kg</td>
+                </tr>
+                <tr>
+                  <td>Dry Ice Packaging</td>
+                  <td>Packaging ต้องระบาย CO₂ gas ได้ และป้องกัน pressure build-up</td>
+                  <td>1 kg dry ice sublimates to 530 liter gas</td>
+                </tr>
+                <tr>
+                  <td>MAG Not Restricted</td>
+                  <td>Compass deflection &lt; 2° ที่ระยะ 2.1 m</td>
+                  <td>DGD / NOTOC / Hazard label ไม่ต้องใช้</td>
+                </tr>
+                <tr>
+                  <td>MAG Permitted</td>
+                  <td>Compass deflection &gt; 2° ที่ 2.1 m แต่ &lt; 2° ที่ 4.6 m</td>
+                  <td>AWB Nature and Quantity: Magnetized Material / Handling label MAG required / IMP code MAG</td>
+                </tr>
+                <tr>
+                  <td>MAG Forbidden</td>
+                  <td>Compass deflection &gt; 2° ที่ 4.6 m</td>
+                  <td>Forbidden as per CI-07</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="dg-card">
+          <h3>Lithium / Sodium Ion Batteries Quick Guide</h3>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr><th>Item</th><th>Summary</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Lithium Ion Batteries</td><td>PI965 UN3480 Batteries only, PI966 UN3481 packed with equipment, PI967 UN3481 contained in equipment</td></tr>
+                <tr><td>Lithium Metal Batteries</td><td>PI968 UN3090 Batteries only, PI969 UN3091 packed with equipment, PI970 UN3091 contained in equipment</td></tr>
+                <tr><td>Sodium Ion Batteries</td><td>PI976 UN3551 Batteries only, PI977 UN3552 packed with equipment, PI978 UN3552 contained in equipment</td></tr>
+                <tr><td>Segregation</td><td>Packages and overpacks containing RBI / RBM / RLI / RLM must be segregated from Class 1–8 dangerous goods</td></tr>
+                <tr><td>AWB Statement</td><td>Section IA/IB and Section I: Handling information should state Dangerous goods as per associated DGD, CAO when applicable</td></tr>
+                <tr><td>Section II AWB Statement</td><td>Nature and Quantity of Goods should state lithium ion / lithium metal / sodium ion batteries in compliance with Section II of applicable PI</td></tr>
+                <tr><td>SoC</td><td>บางกรณีต้อง offered for transport at state of charge not exceeding 30%</td></tr>
+                <tr><td>CI Policy</td><td>ตารางนี้เป็น CI policy และ quick reference; หากไม่ตรงกับ IATA DGR ให้ยึด IATA DGR</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="dg-card">
+          <h3>Official Page</h3>
+          <p>เปิดหน้า Dangerous Goods ของ China Airlines Cargo เพื่อดูข้อมูลล่าสุด:</p>
+          <a class="dg-link" href="https://cargo.china-airlines.com/CCNetv2/content/services/DangerousGoods.aspx" target="_blank">Open China Airlines Cargo Dangerous Goods</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div id="imageModal" onclick="closeImage()">
+  <img id="modalImg" alt="Large aircraft image">
+</div>
+
+<script>
+const data = {
+  B777F_N118: { name: "B777F N118", maxH: 300, baseW: 244, curveH: 190, topW: 120, deduct: 16, image: "images/n118.png" },
+  B777F_P116: { name: "B777F P116", maxH: 295, baseW: 244, curveH: 130, topW: 105, deduct: 16, image: "images/p116.png" },
+  B777F_A116: { name: "B777F A116", maxH: 295, baseW: 223, curveH: 185, topW: 105, deduct: 15, image: "images/a116.png" },
+  B777F_L118: { name: "B777F L118", maxH: 300, baseW: 498, curveH: 190, topW: 255, deduct: 16, image: "images/l118.png" },
+  B777F_L116: { name: "B777F L116", maxH: 295, baseW: 498, curveH: 130, topW: 220, deduct: 16, image: "images/l116.png" },
+  B744F_Q7: { name: "B744F Q7", maxH: 300, baseW: 244, curveH: 244, topW: 166, deduct: 16, image: "images/q7.png" },
+  B744F_A1: { name: "B744F A1", maxH: 244, baseW: 317, curveH: 154, topW: 73, deduct: 16, image: "images/a1.png" },
+  B744F_A2: { name: "B744F A2", maxH: 244, baseW: 317, curveH: 170, topW: 238, deduct: 16, image: "images/a2.png" },
+  B744F_PRA: { name: "B744F PRA ขวางลำ", maxH: 300, baseW: 498, curveH: 244, topW: 343, deduct: 16, image: "images/pra.png" }
+};
+
+function convertToCM(value, unit) {
+  if (unit === "cm") return value;
+  if (unit === "mm") return value / 10;
+  if (unit === "inch") return value * 2.54;
+  if (unit === "m") return value * 100;
+  return value;
+}
+
+function convertFromCM(valueCM, unit) {
+  if (unit === "cm") return valueCM;
+  if (unit === "mm") return valueCM * 10;
+  if (unit === "inch") return valueCM / 2.54;
+  if (unit === "m") return valueCM / 100;
+  return valueCM;
+}
+
+function updateLimitTable() {
+  const item = data[document.getElementById("plane").value];
+
+  document.getElementById("limitName").innerText = item.name;
+  document.getElementById("limitMaxH").innerText = item.maxH + " cm";
+  document.getElementById("limitBaseW").innerText = item.baseW + " cm";
+  document.getElementById("limitCurveH").innerText = item.curveH + " cm";
+  document.getElementById("limitTopW").innerText = item.topW + " cm";
+  document.getElementById("planeImage").src = item.image;
+
+  if (item.name.includes("PRA") || item.name.includes("L118") || item.name.includes("L116")) {
+    document.getElementById("labelBaseW").innerText = "ความยาวฐาน (Base Length - External Dimension)";
+    document.getElementById("labelTopW").innerText = "ความยาวด้านบน (Top Length)";
+  } else {
+    document.getElementById("labelBaseW").innerText = "ความกว้างฐาน (Base Width - External Dimension)";
+    document.getElementById("labelTopW").innerText = "ความกว้างด้านบน (Top Width)";
+  }
+}
+
+function calc() {
+  const item = data[document.getElementById("plane").value];
+  const rawH = Number(document.getElementById("height").value);
+  const unit = document.getElementById("aircraftUnit").value;
+  const h = convertToCM(rawH, unit);
+  const result = document.getElementById("result");
+  result.classList.remove("warning");
+
+  if (!rawH) {
+    result.innerText = "กรุณากรอกความสูง";
+    result.classList.add("warning");
+    return;
+  }
+
+  if (h > item.maxH) {
+    result.innerText = `${item.name}: สูงเกินกำหนด สูงได้ไม่เกิน ${item.maxH} cm`;
+    result.classList.add("warning");
+    return;
+  }
+
+  const widthBeforeDeduct = h <= item.curveH
+    ? item.baseW
+    : ((item.maxH - h) * item.baseW + (h - item.curveH) * item.topW) / (item.maxH - item.curveH);
+
+  const finalWidth = Math.floor(widthBeforeDeduct) - item.deduct;
+
+  if (item.name.includes("PRA") || item.name.includes("L118") || item.name.includes("L116")) {
+    result.innerText = `${item.name}: สูง ${rawH} ${unit} → ยาวได้ไม่เกิน ${finalWidth} cm`;
+  } else {
+    result.innerText = `${item.name}: สูง ${rawH} ${unit} → กว้างได้ไม่เกิน ${finalWidth} cm`;
+  }
+}
+
+function markIfOverLimit(input, valueInCM, limitCM) {
+  if (valueInCM > limitCM) input.classList.add("input-danger");
+  else input.classList.remove("input-danger");
+}
+
+function addDimensionRow() {
+  const tbody = document.getElementById("dimensionBody");
+  const rowNumber = tbody.children.length + 1;
+  const row = document.createElement("tr");
+  row.innerHTML = `
+    <td class="row-number">${rowNumber}</td>
+    <td><input type="number" class="dim-w" placeholder="W" oninput="calculateCBM()"></td>
+    <td><input type="number" class="dim-l" placeholder="L" oninput="calculateCBM()"></td>
+    <td><input type="number" class="dim-h" placeholder="H" oninput="calculateCBM()"></td>
+    <td><input type="number" class="dim-qty" placeholder="Qty" oninput="calculateCBM()"></td>
+    <td class="row-cbm">0.000</td>
+    <td class="row-cf">0.00</td>
+    <td class="row-volume">0.00 kg</td>
+    <td><button class="button-danger" onclick="deleteDimensionRow(this)">ลบ</button></td>`;
+  tbody.appendChild(row);
+}
+
+function deleteDimensionRow(button) {
+  button.closest("tr").remove();
+  updateRowNumbers();
+  calculateCBM();
+}
+
+function updateRowNumbers() {
+  document.querySelectorAll("#dimensionBody tr").forEach((row, index) => {
+    row.querySelector(".row-number").innerText = index + 1;
+  });
+}
+
+function calculateCBM() {
+  const rows = document.querySelectorAll("#dimensionBody tr");
+  const unit = document.getElementById("cbmUnit").value;
+  let totalQty = 0, totalCBM = 0, totalCF = 0, totalVolume = 0;
+
+  rows.forEach(row => {
+    const inputW = row.querySelector(".dim-w");
+    const inputL = row.querySelector(".dim-l");
+    const inputH = row.querySelector(".dim-h");
+    const qty = Number(row.querySelector(".dim-qty").value) || 0;
+    const w = convertToCM(Number(inputW.value) || 0, unit);
+    const l = convertToCM(Number(inputL.value) || 0, unit);
+    const h = convertToCM(Number(inputH.value) || 0, unit);
+
+    markIfOverLimit(inputW, w, 228);
+    markIfOverLimit(inputL, l, 302);
+    markIfOverLimit(inputH, h, 160);
+
+    const cbm = (w * l * h * qty) / 1000000;
+    const cf = cbm * 35.3146667;
+    const volume = (w * l * h * qty) / 6000;
+
+    row.querySelector(".row-cbm").innerText = cbm.toFixed(3);
+    row.querySelector(".row-cf").innerText = cf.toFixed(2);
+    row.querySelector(".row-volume").innerText = volume.toFixed(2) + " kg";
+
+    totalQty += qty;
+    totalCBM += cbm;
+    totalCF += cf;
+    totalVolume += volume;
+  });
+
+  document.getElementById("totalQty").innerText = totalQty;
+  document.getElementById("totalCBM").innerText = totalCBM.toFixed(3);
+  document.getElementById("totalCF").innerText = totalCF.toFixed(2);
+  document.getElementById("totalVolume").innerText = totalVolume.toFixed(2) + " kg";
+}
+
+function addConversionRow() {
+  const tbody = document.getElementById("conversionBody");
+  const rowNumber = tbody.children.length + 1;
+  const row = document.createElement("tr");
+  row.innerHTML = `
+    <td class="convert-row-number">${rowNumber}</td>
+    <td><input type="number" class="convert-w" placeholder="W" oninput="calculateUnitConversion()"></td>
+    <td><input type="number" class="convert-l" placeholder="L" oninput="calculateUnitConversion()"></td>
+    <td><input type="number" class="convert-h" placeholder="H" oninput="calculateUnitConversion()"></td>
+    <td><input type="number" class="convert-qty" placeholder="Qty" oninput="calculateUnitConversion()"></td>
+    <td class="convert-result-text">-</td>
+    <td><button class="button-danger" onclick="deleteConversionRow(this)">ลบ</button></td>`;
+  tbody.appendChild(row);
+}
+
+function deleteConversionRow(button) {
+  button.closest("tr").remove();
+  updateConversionRowNumbers();
+  calculateUnitConversion();
+}
+
+function updateConversionRowNumbers() {
+  document.querySelectorAll("#conversionBody tr").forEach((row, index) => {
+    row.querySelector(".convert-row-number").innerText = index + 1;
+  });
+}
+
+function calculateUnitConversion() {
+  const fromUnit = document.getElementById("convertFromUnit").value;
+  const toUnit = document.getElementById("convertToUnit").value;
+  let totalQty = 0;
+  let totalCBM = 0;
+  let totalCF = 0;
+  let totalVolume = 0;
+
+  document.querySelectorAll("#conversionBody tr").forEach(row => {
+    const inputW = row.querySelector(".convert-w");
+    const inputL = row.querySelector(".convert-l");
+    const inputH = row.querySelector(".convert-h");
+    const inputQty = row.querySelector(".convert-qty");
+
+    const rawW = Number(inputW.value) || 0;
+    const rawL = Number(inputL.value) || 0;
+    const rawH = Number(inputH.value) || 0;
+    const qty = Number(inputQty.value) || 0;
+
+    if (!rawW && !rawL && !rawH && !qty) {
+      inputW.classList.remove("input-danger");
+      inputL.classList.remove("input-danger");
+      inputH.classList.remove("input-danger");
+      row.querySelector(".convert-result-text").innerText = "-";
+      return;
+    }
+
+    const wCM = convertToCM(rawW, fromUnit);
+    const lCM = convertToCM(rawL, fromUnit);
+    const hCM = convertToCM(rawH, fromUnit);
+
+    markIfOverLimit(inputW, wCM, 228);
+    markIfOverLimit(inputL, lCM, 302);
+    markIfOverLimit(inputH, hCM, 160);
+
+    const decimals = toUnit === "mm" ? 1 : toUnit === "m" ? 3 : 2;
+    const suffix = toUnit === "m" ? "meter" : toUnit;
+    const wText = convertFromCM(wCM, toUnit).toFixed(decimals);
+    const lText = convertFromCM(lCM, toUnit).toFixed(decimals);
+    const hText = convertFromCM(hCM, toUnit).toFixed(decimals);
+
+    row.querySelector(".convert-result-text").innerText = `${wText} x ${lText} x ${hText} ${suffix}`;
+
+    const cbm = (wCM * lCM * hCM * qty) / 1000000;
+    const cf = cbm * 35.3146667;
+    const volume = (wCM * lCM * hCM * qty) / 6000;
+
+    totalQty += qty;
+    totalCBM += cbm;
+    totalCF += cf;
+    totalVolume += volume;
+  });
+
+  document.getElementById("convertTotalQty").innerText = totalQty;
+  document.getElementById("convertTotalCBM").innerText = totalCBM.toFixed(3);
+  document.getElementById("convertTotalCF").innerText = totalCF.toFixed(2);
+  document.getElementById("convertTotalVolume").innerText = totalVolume.toFixed(2) + " kg";
+}
+
+function openImage() {
+  const img = document.getElementById("planeImage");
+  document.getElementById("imageModal").style.display = "flex";
+  document.getElementById("modalImg").src = img.src;
+}
+
+function closeImage() {
+  document.getElementById("imageModal").style.display = "none";
+}
+
+function showPage(pageName) {
+  const cargoPanel = document.getElementById("cargoPanel");
+  const dgPanel = document.getElementById("dgPanel");
+  const cargoTab = document.getElementById("cargoTab");
+  const dgTab = document.getElementById("dgTab");
+
+  if (pageName === "dg") {
+    cargoPanel.classList.remove("active-panel");
+    dgPanel.classList.add("active-panel");
+    cargoTab.classList.remove("active-tab");
+    dgTab.classList.add("active-tab");
+  } else {
+    dgPanel.classList.remove("active-panel");
+    cargoPanel.classList.add("active-panel");
+    dgTab.classList.remove("active-tab");
+    cargoTab.classList.add("active-tab");
+  }
+}
+
+updateLimitTable();
+addDimensionRow();
+addDimensionRow();
+addDimensionRow();
+addConversionRow();
+addConversionRow();
+addConversionRow();
+</script>
+
+</body>
+</html>
