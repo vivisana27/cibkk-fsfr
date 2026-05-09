@@ -1131,7 +1131,13 @@ function updateLimitTable() {
   document.getElementById("limitTopW").innerText = item.topW + " cm";
   document.getElementById("planeImage").src = item.image;
 
-  if (item.name.includes("PRA") || item.name.includes("L118") || item.name.includes("L116")) {
+if (
+  item.name.includes("PRA") ||
+  item.name.includes("L118") ||
+  item.name.includes("L116") ||
+  item.name.includes("A1") ||
+  item.name.includes("A2")
+) {
     document.getElementById("labelBaseW").innerText = "ความยาวฐาน (Base Length - External Dimension)";
     document.getElementById("labelTopW").innerText = "ความยาวด้านบน (Top Length)";
   } else {
@@ -1166,7 +1172,13 @@ function calc() {
 
   const finalWidth = Math.floor(widthBeforeDeduct) - item.deduct;
 
-  if (item.name.includes("PRA") || item.name.includes("L118") || item.name.includes("L116")) {
+if (
+  item.name.includes("PRA") ||
+  item.name.includes("L118") ||
+  item.name.includes("L116") ||
+  item.name.includes("A1") ||
+  item.name.includes("A2")
+) {
     result.innerText = `${item.name}: สูง ${rawH} ${unit} → ยาวได้ไม่เกิน ${finalWidth} cm`;
   } else {
     result.innerText = `${item.name}: สูง ${rawH} ${unit} → กว้างได้ไม่เกิน ${finalWidth} cm`;
