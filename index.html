@@ -43,7 +43,7 @@
     }
 
     .page {
-      max-width: 1180px;
+      max-width: 1500px;
       margin: auto;
       padding: 10px 18px 28px;
     }
@@ -151,7 +151,7 @@
       border-top: none;
       border-radius: 0 0 14px 14px;
       padding: 26px;
-      margin-bottom: 22px;
+      margin-bottom: 34px;
       box-shadow: 0 14px 34px rgba(87,61,94,.18);
     }
 
@@ -328,8 +328,9 @@
     }
 
     table {
-      width: 100%;
-      table-layout: fixed;
+      width: max-content;
+      min-width: 100%;
+      table-layout: auto;
       border-collapse: separate;
       border-spacing: 0;
       background: var(--table-lavender);
@@ -638,7 +639,19 @@
       padding-left: 20px;
       line-height: 1.6;
     }
+.dg-card table {
+  font-size: 11px;
+  table-layout: auto;
+  width: max-content;
+  min-width: 100%;
+}
 
+.dg-card th,
+.dg-card td {
+  padding: 4px 6px;
+  line-height: 1.2;
+  vertical-align: top;
+}
     .dg-card li {
       margin-bottom: 8px;
     }
@@ -846,7 +859,6 @@
             <col style="width:70px">
             <col style="width:70px">
             <col style="width:95px">
-            <col style="width:58px">
           </colgroup>
           <thead>
             <tr>
@@ -858,7 +870,6 @@
               <th>CBM</th>
               <th>CF</th>
               <th>Volume Weight</th>
-              <th>ลบ</th>
             </tr>
           </thead>
           <tbody id="dimensionBody"></tbody>
@@ -908,7 +919,6 @@
             <col style="width:17%">
             <col style="width:17%">
             <col style="width:235px">
-            <col style="width:58px">
           </colgroup>
           <thead>
             <tr>
@@ -918,7 +928,6 @@
               <th>สูง H</th>
               <th>ชิ้น Qty</th>
               <th>Dimension Result<br>(W x L x H)</th>
-              <th>ลบ</th>
             </tr>
           </thead>
           <tbody id="conversionBody"></tbody>
@@ -977,29 +986,182 @@
         </div>
 
         <div class="dg-card">
-          <h3>Mainland China Import Limitation</h3>
-          <div class="table-scroll">
+<h3>DGR and Special Cargo to Main-Land China (74th version)</h3>
+
+<div class="table-scroll">
+
             <table>
               <thead>
-                <tr><th>Station</th><th>Limitation / Requirement</th></tr>
+                <tr>
+                  <th>Station</th>
+                  <th>EAT</th>
+                  <th>PER/PES/PEP/PEF/PEM</th>
+                  <th>COL</th>
+                  <th>FRO</th>
+                  <th>HUM</th>
+                  <th>DG</th>
+                  <th>M/D OHG ULD & Center load ULD</th>
+                  <th>Lateral load ULD</th>
+                </tr>
               </thead>
               <tbody>
-                <tr><td>CAN</td><td>รับ Class 1-9 บน cargo aircraft ต้องขอ prior approval จาก CAN ก่อนส่ง</td></tr>
-                <tr><td>CGO</td><td>รับ Class 1-9 บน cargo aircraft ต้องขอ prior approval จาก CGO ยกเว้น ICE</td></tr>
-                <tr><td>CKG</td><td>รับ Class 1-9 บน cargo aircraft ต้องขอ prior approval จาก CKG</td></tr>
-                <tr><td>FOC</td><td>ไม่รับ DG ทุกประเภท รวมถึง ICE / ELI / ELM</td></tr>
-                <tr><td>NGB</td><td>รับเฉพาะ Class 9; ไม่รับ UN2910/UN2911 radioactive excepted package และ UN3373</td></tr>
-                <tr><td>NKG</td><td>รับ Class 1-9 บน cargo aircraft ต้องขอ prior approval; UN3481 PI966/967 Section II และ UN3091 PI969/970 Section II ต้องขอ approval ด้วย</td></tr>
-                <tr><td>PEK</td><td>รับเฉพาะ Class 9 ต้องขอ prior approval; ไม่รับ UN2910/UN2911 และ UN3373</td></tr>
-                <tr><td>PVG</td><td>รับ Class 1-9 บน cargo aircraft; Class 1 ต้องขอ prior approval จาก PVG</td></tr>
-                <tr><td>SHA</td><td>รับเฉพาะ ELI / ELM; DG อื่นไม่รับ</td></tr>
-                <tr><td>SZX</td><td>รับ Class 1-9 บน cargo aircraft ต้องขอ prior approval และต้องมี MSDS/SDS ภาษาจีน; chemical DG ต้องให้ consignee รับของวันเดียวกับ arrival</td></tr>
-                <tr><td>TFU</td><td>รับเฉพาะ Class 9; ไม่รับ UN2910/UN2911 และ UN3373</td></tr>
-                <tr><td>WUH</td><td>ไม่รับ DG ทุกประเภท รวมถึง ICE / ELI / ELM</td></tr>
-                <tr><td>XMN</td><td>รับ Class 1-9 บน cargo aircraft ต้องขอ prior approval จาก XMN ยกเว้น ICE</td></tr>
+                <tr>
+                  <td><b>CAN</b></td>
+                  <td>O*</td>
+                  <td>PRE-ALERT</td>
+                  <td>O*</td>
+                  <td>O*</td>
+                  <td>ADAC</td>
+                  <td>*PRE-ALERT<br>(Temp Control cargo only)</td>
+                  <td>PRE-ALERT</td>
+                  <td>PRE-ALERT</td>
+                </tr>
+                <tr>
+                  <td><b>CGO</b></td>
+                  <td>O</td>
+                  <td>PRE-ALERT</td>
+                  <td>PRE-ALERT</td>
+                  <td>PRE-ALERT</td>
+                  <td>ADAC</td>
+                  <td>ADAC<br>(except for ICE for cooling purpose)</td>
+                  <td>O</td>
+                  <td>O</td>
+                </tr>
+                <tr>
+                  <td><b>CKG</b></td>
+                  <td>O</td>
+                  <td>ADAC & only accept PES/PEM</td>
+                  <td>O</td>
+                  <td>O</td>
+                  <td>ADAC</td>
+                  <td>Class 1/2/4/5/6/7/8 need ADAC</td>
+                  <td>PRE-ALERT</td>
+                  <td>PRE-ALERT</td>
+                </tr>
+                <tr>
+                  <td><b>TFU</b></td>
+                  <td>O</td>
+                  <td>O</td>
+                  <td>O</td>
+                  <td>O</td>
+                  <td>ADAC</td>
+                  <td>Class 9 only<br>(ELI/ELM acceptable)</td>
+                  <td>(PAX station)</td>
+                  <td>(PAX station)</td>
+                </tr>
+                <tr>
+                  <td><b>NKG</b></td>
+                  <td>O</td>
+                  <td>O</td>
+                  <td>X</td>
+                  <td>X</td>
+                  <td>ADAC</td>
+                  <td>ADAC<br>(INCLUDE ELI/ELM)</td>
+                  <td>PRE-ALERT</td>
+                  <td>PRE-ALERT</td>
+                </tr>
+                <tr>
+                  <td><b>PEK</b></td>
+                  <td>O</td>
+                  <td>ADAC</td>
+                  <td>ADAC</td>
+                  <td>ADAC</td>
+                  <td>X</td>
+                  <td>Class 9 only<br>ADAC*</td>
+                  <td>(PAX station)</td>
+                  <td>(PAX station)</td>
+                </tr>
+                <tr>
+                  <td><b>PVG</b></td>
+                  <td>O</td>
+                  <td>PRE-ALERT</td>
+                  <td>PRE-ALERT</td>
+                  <td>PRE-ALERT</td>
+                  <td>ADAC</td>
+                  <td>O<br>(ADAC required for Class 1)</td>
+                  <td>PRE-ALERT</td>
+                  <td>PRE-ALERT</td>
+                </tr>
+                <tr>
+                  <td><b>SHA</b></td>
+                  <td>O</td>
+                  <td>X</td>
+                  <td>X</td>
+                  <td>X</td>
+                  <td>ADAC</td>
+                  <td>X<br>(ELI/ELM acceptable)</td>
+                  <td>(PAX station)</td>
+                  <td>(PAX station)</td>
+                </tr>
+                <tr>
+                  <td><b>SZX</b></td>
+                  <td>O</td>
+                  <td>O<br>(PER/PES/PEM MUST BE PURE LOADED)</td>
+                  <td>O</td>
+                  <td>O</td>
+                  <td>ADAC</td>
+                  <td>ADAC with MSDS<br>(Dangerous Chemical need MSDS in Chinese)<br>(except for ICE for cooling purpose)</td>
+                  <td>ADAC</td>
+                  <td>O</td>
+                </tr>
+                <tr>
+                  <td><b>XMN</b></td>
+                  <td>O</td>
+                  <td>O</td>
+                  <td>O</td>
+                  <td>O</td>
+                  <td>X</td>
+                  <td>ADAC<br>(except for ICE for cooling purpose)</td>
+                  <td>O</td>
+                  <td>O</td>
+                </tr>
+                <tr>
+                  <td><b>WUH</b></td>
+                  <td>O</td>
+                  <td>O</td>
+                  <td>O</td>
+                  <td>O</td>
+                  <td>ADAC</td>
+                  <td>X<br>(include ICE/ELI/ELM)</td>
+                  <td>(PAX station)</td>
+                  <td>(PAX station)</td>
+                </tr>
+                <tr>
+                  <td><b>FOC</b></td>
+                  <td>O</td>
+                  <td>X</td>
+                  <td>X</td>
+                  <td>X</td>
+                  <td>ADAC</td>
+                  <td>X<br>(include ICE/ELI/ELM)</td>
+                  <td>(PAX station)</td>
+                  <td>(PAX station)</td>
+                </tr>
               </tbody>
             </table>
           </div>
+
+          <h3 style="margin-top: 22px;">Special Handling Code Legend</h3>
+          <div class="table-scroll">
+            <table>
+              <tbody>
+                <tr><th>EAT</th><td>Foodstuff, e.g. cookies, candy, chocolate</td></tr>
+                <tr><th>PER</th><td>Perishable cargo (food), e.g. milk, frozen beef, ice cream</td></tr>
+                <tr><th>PES</th><td>Fish/Seafood, e.g. salmon, lobster</td></tr>
+                <tr><th>PEP</th><td>Fruits & vegetables</td></tr>
+                <tr><th>PEF</th><td>Flowers</td></tr>
+                <tr><th>PEM</th><td>Meat</td></tr>
+                <tr><th>COL</th><td>2–8°C temp. control cargo other than food, e.g. vaccine</td></tr>
+                <tr><th>FRO</th><td>Frozen cargo other than food, e.g. vaccine, chemical</td></tr>
+                <tr><th>DG</th><td>Dangerous Goods</td></tr>
+                <tr><th>O</th><td>Acceptable as per CHM/DGOM</td></tr>
+                <tr><th>X</th><td>Embargo</td></tr>
+                <tr><th>ADAC</th><td>Contact station for approval 72 hours before departure from original station</td></tr>
+                <tr><th>PRE-ALERT</th><td>Send pre-alert to the arrival station 72 hours before arrival</td></tr>
+              </tbody>
+            </table>
+          </div>
+
         </div>
 
         <div class="dg-card">
@@ -1017,7 +1179,7 @@
                 </tr>
                 <tr>
                   <td>RRE Countries</td>
-                  <td>ตัวอย่างประเทศ/เมืองที่ระบุในไฟล์: UAE-DWC, Australia-SYD/BNE/MEL, India-DEL/BOM, Malaysia-KUL/PEN, Netherlands-AMS, Thailand-BKK/CNX</td>
+                  <td>ตัวอย่างประเทศ/เมืองที่ระบุในไฟล์: UAE-DWC, Australia-SYD/BNE/MEL, India-DEL/BOM,<br>Malaysia-KUL/PEN, Netherlands-AMS, Thailand-BKK/CNX</td>
                   <td>อ้างอิง variation: AEG-06, AUG-02, ING-02, MYG-02, NLG-03, THG-05</td>
                 </tr>
                 <tr>
@@ -1131,13 +1293,7 @@ function updateLimitTable() {
   document.getElementById("limitTopW").innerText = item.topW + " cm";
   document.getElementById("planeImage").src = item.image;
 
-if (
-  item.name.includes("PRA") ||
-  item.name.includes("L118") ||
-  item.name.includes("L116") ||
-  item.name.includes("A1") ||
-  item.name.includes("A2")
-) {
+  if (item.name.includes("PRA") || item.name.includes("L118") || item.name.includes("L116")) {
     document.getElementById("labelBaseW").innerText = "ความยาวฐาน (Base Length - External Dimension)";
     document.getElementById("labelTopW").innerText = "ความยาวด้านบน (Top Length)";
   } else {
@@ -1172,13 +1328,7 @@ function calc() {
 
   const finalWidth = Math.floor(widthBeforeDeduct) - item.deduct;
 
-if (
-  item.name.includes("PRA") ||
-  item.name.includes("L118") ||
-  item.name.includes("L116") ||
-  item.name.includes("A1") ||
-  item.name.includes("A2")
-) {
+  if (item.name.includes("PRA") || item.name.includes("L118") || item.name.includes("L116")) {
     result.innerText = `${item.name}: สูง ${rawH} ${unit} → ยาวได้ไม่เกิน ${finalWidth} cm`;
   } else {
     result.innerText = `${item.name}: สูง ${rawH} ${unit} → กว้างได้ไม่เกิน ${finalWidth} cm`;
@@ -1202,8 +1352,7 @@ function addDimensionRow() {
     <td><input type="number" class="dim-qty" placeholder="Qty" oninput="calculateCBM()"></td>
     <td class="row-cbm">0.000</td>
     <td class="row-cf">0.00</td>
-    <td class="row-volume">0.00 kg</td>
-    <td><button class="button-danger" onclick="deleteDimensionRow(this)">ลบ</button></td>`;
+    <td class="row-volume">0.00 kg</td>`; 
   tbody.appendChild(row);
 }
 
@@ -1267,8 +1416,7 @@ function addConversionRow() {
     <td><input type="number" class="convert-l" placeholder="L" oninput="calculateUnitConversion()"></td>
     <td><input type="number" class="convert-h" placeholder="H" oninput="calculateUnitConversion()"></td>
     <td><input type="number" class="convert-qty" placeholder="Qty" oninput="calculateUnitConversion()"></td>
-    <td class="convert-result-text">-</td>
-    <td><button class="button-danger" onclick="deleteConversionRow(this)">ลบ</button></td>`;
+    <td class="convert-result-text">-</td>`; 
   tbody.appendChild(row);
 }
 
@@ -1373,12 +1521,8 @@ function showPage(pageName) {
 }
 
 updateLimitTable();
-addDimensionRow();
-addDimensionRow();
-addDimensionRow();
-addConversionRow();
-addConversionRow();
-addConversionRow();
+for (let i = 0; i < 10; i++) addDimensionRow();
+for (let i = 0; i < 10; i++) addConversionRow();
 </script>
 
 </body>
