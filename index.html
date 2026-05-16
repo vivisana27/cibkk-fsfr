@@ -621,13 +621,17 @@
     }
 
     .dg-card {
-      background: var(--page-yellow);
-      border: 2px solid var(--border);
-      border-radius: 14px;
-      padding: 16px;
-      box-shadow: 5px 5px 0 rgba(106,79,114,.18);
-      margin-top: 16px;
-    }
+    background: var(--page-yellow);
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 5px 5px 0 rgba(106,79,114,.18);
+    margin-top: 16px;
+}
+
+.tall-card {
+    min-height: 490px;
+}
 
     .dg-card h3 {
       margin: 0 0 10px;
@@ -955,9 +959,8 @@
           กรุณาตรวจสอบกฎล่าสุดจาก IATA DGR และเว็บไซต์บริษัทก่อนรับงานจริงทุกครั้ง
         </div>
 
-        <div class="dg-grid">
           <div class="dg-card">
-            <h3>China Airlines Variation</h3>
+            <h3 class="section-title"><span class="icon">📋</span> China Airlines Variation</h3>
             <ul>
               <li><b>CI-01:</b> Passenger aircraft ไม่รับ Class 1 ถึง Class 8 ยกเว้น DG ที่ไม่ต้องใช้ DGD; รวมถึง UN3556, UN3557, UN3558 และ UN3091/UN3481/UN3552 Section I ตาม PI ที่เกี่ยวข้อง</li>
               <li><b>CI-02:</b> Excepted quantities ไม่รับ ยกเว้น radioactive materials, excepted package</li>
@@ -971,22 +974,9 @@
             </ul>
           </div>
 
-          <div class="dg-card">
-            <h3>Embargo / High Light List</h3>
-            <table>
-              <tbody>
-                <tr><th>All</th><td>ห้ามรับ UN3090 Lithium Metal Batteries PI968 Section IA/IB เป็น cargo</td></tr>
-                <tr><th>DWC</th><td>ต้องขอ prior permit 48 ชั่วโมงก่อน flight arrival ที่ DWC ยกเว้น cargo stay in aircraft</td></tr>
-                <tr><th>FRA</th><td>DG import ทุก shipment จะถูก rechecked</td></tr>
-                <tr><th>HKG</th><td>DG shipment ต้อง claim ภายใน 24 ชั่วโมงหลัง arrival</td></tr>
-                <tr><th>KTI / PNH</th><td>DG ทุกประเภท รวมถึง DG ที่ไม่ต้องใช้ DGD ไม่รับ</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
+          
         <div class="dg-card">
-<h3>DGR and Special Cargo to Main-Land China (74th version)</h3>
+<h3 class="section-title"><span class="icon">🇨🇳</span> DGR and Special Cargo to Main-Land China (74th version)</h3>
 
 <div class="table-scroll">
 
@@ -1141,7 +1131,7 @@
             </table>
           </div>
 
-          <h3 style="margin-top: 22px;">Special Handling Code Legend</h3>
+          <h3 class="section-title" style="margin-top: 22px;"><span class="icon">📝</span> Special Handling Code Legend</h3>
           <div class="table-scroll">
             <table>
               <tbody>
@@ -1165,7 +1155,7 @@
         </div>
 
         <div class="dg-card">
-          <h3>RRE Permit / Dry Ice / MAG Quick Guide</h3>
+          <h3 class="section-title"><span class="icon">❄️</span> RRE Permit / Dry Ice / MAG Quick Guide</h3>
           <div class="table-scroll">
             <table>
               <thead>
@@ -1218,7 +1208,7 @@
         </div>
 
         <div class="dg-card">
-          <h3>Lithium / Sodium Ion Batteries Quick Guide</h3>
+          <h3 class="section-title"><span class="icon">🔋</span> Lithium / Sodium Ion Batteries Quick Guide</h3>
           <div class="table-scroll">
             <table>
               <thead>
@@ -1239,7 +1229,7 @@
         </div>
 
         <div class="dg-card">
-          <h3>Official Page</h3>
+          <h3 class="section-title"><span class="icon">🔗</span> Official Page</h3>
           <p>เปิดหน้า Dangerous Goods ของ China Airlines Cargo เพื่อดูข้อมูลล่าสุด:</p>
           <a class="dg-link" href="https://cargo.china-airlines.com/CCNetv2/content/services/DangerousGoods.aspx" target="_blank">Open China Airlines Cargo Dangerous Goods</a>
         </div>
@@ -1293,7 +1283,13 @@ function updateLimitTable() {
   document.getElementById("limitTopW").innerText = item.topW + " cm";
   document.getElementById("planeImage").src = item.image;
 
-  if (item.name.includes("PRA") || item.name.includes("L118") || item.name.includes("L116")) {
+if (
+  item.name.includes("PRA") ||
+  item.name.includes("L118") ||
+  item.name.includes("L116") ||
+  item.name.includes("B744F A1") ||
+item.name.includes("B744F A2")
+) {
     document.getElementById("labelBaseW").innerText = "ความยาวฐาน (Base Length - External Dimension)";
     document.getElementById("labelTopW").innerText = "ความยาวด้านบน (Top Length)";
   } else {
@@ -1328,7 +1324,13 @@ function calc() {
 
   const finalWidth = Math.floor(widthBeforeDeduct) - item.deduct;
 
-  if (item.name.includes("PRA") || item.name.includes("L118") || item.name.includes("L116")) {
+if (
+  item.name.includes("PRA") ||
+  item.name.includes("L118") ||
+  item.name.includes("L116") ||
+item.name.includes("B744F A1") ||
+item.name.includes("B744F A2")
+) {
     result.innerText = `${item.name}: สูง ${rawH} ${unit} → ยาวได้ไม่เกิน ${finalWidth} cm`;
   } else {
     result.innerText = `${item.name}: สูง ${rawH} ${unit} → กว้างได้ไม่เกิน ${finalWidth} cm`;
